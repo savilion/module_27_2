@@ -167,7 +167,7 @@ public:
     {
         std::cout << "Area square: " << areaFigure << " Color: " << colorChange(colorFigure) << std::endl;
         std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << pointXminus << "," << pointYplus << ") B(" << pointXplus << ","
-                  << pointYplus << ") C(" << pointXplus << "," << y - sideB / 2 << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
+                  << pointYplus << ") C(" << pointXplus << "," << pointYminus << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
     }
 };
 

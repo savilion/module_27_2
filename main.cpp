@@ -17,14 +17,30 @@ enum FIGURE
     RECTANGLE
 };
 
+std::string colorChange(COLOR inSwitch)
+{
+    switch (inSwitch)
+    {
+        case 1: return "Red";
+        case 2: return "Blue";
+        case 3: return "Green";
+        case 4: return "None";
+    }
+    return "Not defined";
+}
+
 class Figure
 {
 public:
     double x{0};
     double y{0};
-    std::string colorFigure;
+    double areaFigure{0};
 
-    void setParameter()
+    double pointXminus{}, pointXplus{};     // Point A,D and B,C: x - coordinates
+    double pointYminus{}, pointYplus{};     // Point D,C and A,B: y - coordinates
+    COLOR colorFigure;
+
+    Figure()
     {
         int answerColor;
         std::cout << "Enter the coordinates of the center of the shape (x,y):\n<- ";
@@ -34,16 +50,16 @@ public:
         switch (answerColor)
         {
             case RED:
-                colorFigure = "Red";
+                colorFigure = RED;
                 break;
             case BLUE:
-                colorFigure = "Blue";
+                colorFigure = BLUE;
                 break;
             case GREEN:
-                colorFigure = "Green";
+                colorFigure = GREEN;
                 break;
             case NONE:
-                colorFigure = "None";
+                colorFigure = NONE;
             default:
                 break;
         }
@@ -52,79 +68,106 @@ public:
 
 class Circle: public Figure
 {
-public:
     double radius{0};
 
-    void setParameterCircle()
+public:
+
+    Circle() : Figure()
     {
-        setParameter();
         std::cout << "Enter the radius:\n<- ";
         std::cin >> radius;
+
+        areaFigure = atan(1) * 4 * radius;
+        pointXminus = x - radius;
+        pointXplus = x + radius;
+        pointYminus = y - radius;
+        pointYplus = y + radius;
     }
 
     void showCircleInfo()
     {
-        std::cout << "Area circle: " << atan(1) * 4 * radius << " Color: " << colorFigure << std::endl;
-        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << x - radius << "," << y + radius << ") B(" << x + radius << ","
-                    << y + radius << ") C(" << x + radius << "," << y - radius << ") D(" << x - radius << "," << y - radius << ")" << std::endl;
+        std::cout << "Area circle: " << areaFigure << " Color: " << colorChange(colorFigure) << std::endl;
+        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << pointXminus << "," << pointYplus << ") B(" << pointXplus << ","
+                    << pointYplus << ") C(" << pointXplus << "," << pointYminus << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
     }
 };
 
 class Square: public Figure
 {
-public:
     double side{0};
 
-    void setParameterSquare()
+public:
+
+    Square() : Figure()
     {
-        setParameter();
         std::cout << "Enter the side length:\n<- ";
         std::cin >> side;
+
+        areaFigure = side * side;
+        pointXminus = x - side / 2;
+        pointXplus = x + side / 2;
+        pointYminus = y - side / 2;
+        pointYplus = y + side / 2;
     }
+
     void showSquareInfo()
     {
-        std::cout << "Area square: " << side * side << " Color: " << colorFigure << std::endl;
-        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << x - side / 2 << "," << y + side / 2 << ") B(" << x + side / 2 << ","
-                  << y + side / 2 << ") C(" << x + side / 2 << "," << y - side / 2 << ") D(" << x - side / 2 << "," << y - side / 2 << ")" << std::endl;
+        std::cout << "Area square: " << areaFigure << " Color: " << colorChange(colorFigure) << std::endl;
+        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << pointXminus << "," << pointYplus << ") B(" << pointXplus << ","
+                  << pointYplus << ") C(" << pointXplus << "," << pointYminus << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
     }
 };
 
 class Triangle: public Figure
 {
-public:
     double side{0};
 
-    void setParameterTriangle()
+public:
+
+    Triangle() : Figure()
     {
-        setParameter();
         std::cout << "Enter the side length:\n<- ";
         std::cin >> side;
+
+        areaFigure = side * side * sqrt(3) / 4;
+        pointXminus = x - side / 2;
+        pointXplus = x + side / 2;
+        pointYminus = y - side / 2;
+        pointYplus = y + side / 2;
     }
+
     void showTriangleInfo()
     {
-        std::cout << "Area square: " << side * side * sqrt(3) / 4 << " Color: " << colorFigure << std::endl;
-        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << x - side / 2 << "," << y + side / 2 << ") B(" << x + side / 2 << ","
-                  << y + side / 2 << ") C(" << x + side / 2 << "," << y - side / 2 << ") D(" << x - side / 2 << "," << y - side / 2 << ")" << std::endl;
+        std::cout << "Area triangle: " << areaFigure << " Color: " << colorChange(colorFigure) << std::endl;
+        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << pointXminus << "," << pointYplus << ") B(" << pointXplus << ","
+                  << pointYplus << ") C(" << pointXplus << "," << pointYminus << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
     }
 };
 
 class Rectangle: public Figure
 {
-public:
     double sideA{0};
     double sideB{0};
 
-    void setParameterRectangle()
+public:
+
+    Rectangle() : Figure()
     {
-        setParameter();
         std::cout << "Enter the side length(A,B):\n<- ";
         std::cin >> sideA >> sideB;
+
+        areaFigure = sideA * sideB;
+        pointXminus = x - sideB / 2;
+        pointXplus = x + sideB / 2;
+        pointYminus = y - sideA / 2;
+        pointYplus = y + sideA / 2;
     }
+
     void showRectangleInfo()
     {
-        std::cout << "Area square: " << sideA * sideB << " Color: " << colorFigure << std::endl;
-        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << x - sideA / 2 << "," << y + sideB / 2 << ") B(" << x + sideA / 2 << ","
-                  << y + sideB / 2 << ") C(" << x + sideA / 2 << "," << y - sideB / 2 << ") D(" << x - sideA / 2 << "," << y - sideB / 2 << ")" << std::endl;
+        std::cout << "Area square: " << areaFigure << " Color: " << colorChange(colorFigure) << std::endl;
+        std::cout << "The figure is described by a rectangle with the coordinates of the vertices: A(" << pointXminus << "," << pointYplus << ") B(" << pointXplus << ","
+                  << pointYplus << ") C(" << pointXplus << "," << y - sideB / 2 << ") D(" << pointXminus << "," << pointYminus << ")" << std::endl;
     }
 };
 
@@ -141,29 +184,27 @@ int main()
         Rectangle* rectangle;
         case CIRCLE:
             circle = new Circle();
-            circle->setParameterCircle();
             circle->showCircleInfo();
             delete circle;
             break;
         case SQUARE:
             square = new Square;
-            square->setParameterSquare();
             square->showSquareInfo();
             delete square;
             break;
         case TRIANGLE:
             triangle = new Triangle();
-            triangle->setParameterTriangle();
             triangle->showTriangleInfo();
             delete triangle;
             break;
         case RECTANGLE:
             rectangle = new Rectangle();
-            rectangle->setParameterRectangle();
             rectangle->showRectangleInfo();
             delete rectangle;
             break;
         default:
             break;
+
     }
+
 }
